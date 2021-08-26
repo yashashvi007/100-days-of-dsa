@@ -1,0 +1,32 @@
+ set<pair<int, int>> setds;
+
+        vector<int> dist(v, INT32_MAX);
+
+        setds.insert(make_pair(0, src));
+        dist[src] = 0;
+
+        while (!setds.empty())
+        {
+            pair<int, int> tmp = *(setds.begin());
+
+            setds.erase(setds.begin());
+
+            int u = tmp.second;
+            list<pair<int, int>>::iterator itr;
+            for (itr = adj[u].begin(); itr != adj[u].end(); itr++)
+            {
+                int v = (*itr).first;
+                int weight = (*itr).second;
+
+                if (dist[v] > dist[u] + weight)
+                {
+                    if (dist[v] != INT32_MAX)
+                    {
+                        setds.erase(setds.find(make_pair(dist[v], v)));
+                    }
+
+                    dist[v] = dist[u] + weight;
+                    setds.insert(make_pair(dist[v], v));
+                }
+            }
+        }
